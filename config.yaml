@@ -1,0 +1,50 @@
+# ============================================================
+# Super Mario Bros — Double DQN Hyperparameter Configuration
+# ============================================================
+
+# --- Environment ---
+environment:
+  name: "SuperMarioBros-1-1-v3"
+  actions: "RIGHT_ONLY"           # Action space (RIGHT_ONLY = 5 actions)
+
+# --- Training ---
+training:
+  num_episodes: 50000
+  save_interval: 50               # Save model every N episodes
+  learn_every_n_steps: 4          # Call agent.learn() every N steps
+  video_interval: 1000            # Record video every N episodes
+  model_path: "mario_model.pth"
+
+# --- Default Hyperparameters (baseline agent) ---
+default_hyperparams:
+  lr: 0.0001
+  gamma: 0.99
+  epsilon: 0.9
+  eps_decay: 0.9999975
+  eps_min: 0.1
+  batch_size: 256
+  sync_network_rate: 10000
+  replay_buffer_capacity: 100000
+
+# --- Optuna Search Space ---
+optuna:
+  n_trials: 10
+  n_episodes_per_trial: 500       # Short runs to explore hyperparam space
+  study_name: "mario_dqn"
+  storage: "sqlite:///mario_optuna.db"
+  best_params_file: "best_params.json"
+  search_space:
+    lr: [0.00001, 0.001]              # log-uniform
+    gamma: [0.9, 0.999]
+    eps_decay: [0.99999, 0.999999]    # log-uniform
+    batch_size: [32, 64, 128, 256]    # categorical
+    sync_network_rate: [5000, 10000, 20000]  # categorical
+    replay_buffer_capacity: [50000, 100000, 200000]  # categorical
+
+# --- Evaluation ---
+evaluation:
+  n_episodes: 30                  # Number of greedy evaluation episodes
+  alpha: 0.05                     # Significance level for statistical tests
+  default_model: "mario_model.pth"
+  optimized_model: "mario_model_optimized.pth"
+  output_dir: "results"
