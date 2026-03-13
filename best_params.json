@@ -1,0 +1,10 @@
+{
+  "lr": 5.6115164153345e-05,
+  "gamma": 0.9941207163345817,
+  "eps_decay": 0.999996587937531,
+  "batch_size": 32,
+  "sync_network_rate": 5000,
+  "replay_buffer_capacity": 100000,
+  "epsilon": 0.9,
+  "eps_min": 0.1
+}
