@@ -43,7 +43,7 @@ optuna:
 
 # --- Evaluation ---
 evaluation:
-  n_episodes: 30                  # Number of greedy evaluation episodes
+  n_episodes: 30                  # Number of evaluation episodes
   alpha: 0.05                     # Significance level for statistical tests
   default_model: "mario_model.pth"
   optimized_model: "mario_model_optimized.pth"
